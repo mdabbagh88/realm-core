@@ -27,7 +27,7 @@ using namespace realm;
 
 namespace {
 
-class InRealmHistoryImpl : public TrivialReplication, private _impl::InRealmHistory {
+class InRealmHistoryImpl : public TrivialReplication {
 public:
     using version_type = TrivialReplication::version_type;
 
@@ -40,7 +40,7 @@ public:
     {
         TrivialReplication::initialize(sg); // Throws
         using sgf = _impl::SharedGroupFriend;
-        _impl::InRealmHistory::initialize(sgf::get_group(sg)); // Throws
+        m_history.initialize(sgf::get_group(sg)); // Throws
     }
 
     void initiate_session(version_type) override
@@ -57,9 +57,9 @@ public:
                                    version_type orig_version) override
     {
         if (!is_history_updated())
-            update_from_parent(orig_version); // Throws
+            m_history.update_from_parent(orig_version); // Throws
         BinaryData changeset(data, size);
-        version_type new_version = add_changeset(changeset); // Throws
+        version_type new_version = m_history.add_changeset(changeset); // Throws
         return new_version;
     }
 
@@ -76,13 +76,10 @@ public:
 
     _impl::History* get_history() override
     {
-        return this;
+        return &m_history;
     }
-
-    BinaryData get_uncommitted_changes() noexcept override
-    {
-        return TrivialReplication::get_uncommitted_changes();
-    }
+private:
+    _impl::InRealmHistory m_history;
 };
 
 } // unnamed namespace
