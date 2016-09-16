@@ -67,7 +67,7 @@ try {
     ubuntu1604: doBuildPackage('ubuntu-1604', 'deb')
   )
 
-  if (['master', 'next-major'].contains(env.BRANCH_NAME)) {
+  if (['master', 'next-major', 'ajl/try-new-iteration-format'].contains(env.BRANCH_NAME)) {
     stage 'publish-packages'
     parallel(
       generic: doPublishGeneric(),
