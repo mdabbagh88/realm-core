@@ -272,8 +272,7 @@ TEST(Group_Permissions)
 }
 #endif
 
-// FIXME: Fails on Windows
-#ifndef _MSC_VER
+
 TEST(Group_BadFile)
 {
     GROUP_TEST_PATH(path_1);
@@ -298,7 +297,7 @@ TEST(Group_BadFile)
         CHECK(group.is_attached());
     }
 }
-#endif
+
 
 TEST(Group_OpenBuffer)
 {

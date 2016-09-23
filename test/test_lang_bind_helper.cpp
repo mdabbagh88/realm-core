@@ -9025,7 +9025,6 @@ TEST(LangBindHelper_RollbackAndContinueAsRead_TransactLog)
     }
 }
 
-#ifndef _WIN32
 
 TEST(LangBindHelper_ImplicitTransactions_OverSharedGroupDestruction)
 {
@@ -9058,7 +9057,6 @@ TEST(LangBindHelper_ImplicitTransactions_OverSharedGroupDestruction)
     }
 }
 
-#endif
 
 TEST(LangBindHelper_ImplicitTransactions_LinkList)
 {
