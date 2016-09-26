@@ -523,7 +523,7 @@ int test_all(int argc, char* argv[], util::Logger* logger)
 	// shown in Explorer?). This can make various unit tests fail if their .realm database files get locked. So
 	// we create a special untracked directory for them here, which we have added to .gitignore which seems to
 	// solve the problem.
-	CreateDirectoryA("../test_windows", 0);
+    CreateDirectoryA("../test_windows", 0);
     set_test_resource_path("../test_windows/");
     set_test_path_prefix("../test_windows/");
 #endif
