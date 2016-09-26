@@ -21,6 +21,10 @@
 #include "C:\\Program Files (x86)\\Visual Leak Detector\\include\\vld.h"
 #endif
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 #include <ctime>
 #include <cstring>
 #include <cstdlib>
@@ -376,7 +380,7 @@ bool run_tests(util::Logger* logger)
 
     // Set number of threads
     {
-        const char* str = getenv("UNITTEST_THREADS");
+        const char* str = "1";// getenv("UNITTEST_THREADS");
         if (str && strlen(str) != 0) {
             std::istringstream in(str);
             in.imbue(std::locale::classic());
@@ -392,7 +396,7 @@ bool run_tests(util::Logger* logger)
 
     // Set number of repetitions
     {
-        const char* str = getenv("UNITTEST_REPEAT");
+        const char* str = "1";// getenv("UNITTEST_REPEAT");
         if (str && strlen(str) != 0) {
             std::istringstream in(str);
             in.imbue(std::locale::classic());
@@ -515,9 +519,13 @@ int test_all(int argc, char* argv[], util::Logger* logger)
     bool no_error_exit_staus = 2 <= argc && strcmp(argv[1], "--no-error-exitcode") == 0;
 
 #ifdef _MSC_VER
-    // we're in /build/ on Windows if we're in the Visual Studio IDE
-    set_test_resource_path("../test/");
-    set_test_path_prefix("../test/");
+	// Some Git clients on Windows (TortoiseGit) will periodically lock all your files (in order to update icons
+	// shown in Explorer?). This can make various unit tests fail if their .realm database files get locked. So
+	// we create a special untracked directory for them here, which we have added to .gitignore which seems to
+	// solve the problem.
+	CreateDirectoryA("../test_windows", 0);
+    set_test_resource_path("../test_windows/");
+    set_test_path_prefix("../test_windows/");
 #endif
 
     set_random_seed();
