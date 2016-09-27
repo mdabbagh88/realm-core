@@ -9,7 +9,6 @@ tags
 /gcovr.xml
 /tmp
 doc/html
-/test_windows
 
 # Ignore all user files except one which includes execution path for test
 *.user

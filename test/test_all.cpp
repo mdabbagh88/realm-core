@@ -518,15 +518,13 @@ int test_all(int argc, char* argv[], util::Logger* logger)
 
     bool no_error_exit_staus = 2 <= argc && strcmp(argv[1], "--no-error-exitcode") == 0;
 
-#ifdef _MSC_VER
-	// Some Git clients on Windows (TortoiseGit) will periodically lock all your files (in order to update icons
-	// shown in Explorer?). This can make various unit tests fail if their .realm database files get locked. So
-	// we create a special untracked directory for them here, which we have added to .gitignore which seems to
-	// solve the problem.
-	CreateDirectoryA("../test_windows", 0);
-    set_test_resource_path("../test_windows/");
-    set_test_path_prefix("../test_windows/");
-#endif
+    // Some Git clients on Windows (TortoiseGit) will periodically lock all your files (in order to update icons
+    // shown in Explorer?). This can make various unit tests fail if their .realm database files get locked. So
+    // we create a special untracked directory for them here, which we have added to .gitignore which seems to
+    // solve the problem.
+	util::try_make_dir("../test/tmp");
+    set_test_resource_path("../test/");
+    set_test_path_prefix("../test/tmp/");
 
     set_random_seed();
     set_always_encrypt();

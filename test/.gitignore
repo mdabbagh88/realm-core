@@ -12,6 +12,7 @@
 /realm-tests
 /realm-tests-dbg
 /realm-tests-cov
+/tmp
 
 /benchmark/x64
 /benchmark
